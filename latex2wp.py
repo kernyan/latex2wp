@@ -155,8 +155,6 @@ def extractbody(m) :
 
     m=m.replace("\\begin{eqnarray*}","\\[ \\begin{array}{rcl} ")
     m=m.replace("\\end{eqnarray*}","\\end{array} \\]")
-    m=m.replace("\\begin{equation*}","\\[ \\begin{equation*} ")
-    m=m.replace("\\end{equation*}", "\\end{equation*} \\]")
 
     return m
 
@@ -276,6 +274,8 @@ def convertonetable(m,border) :
 def separatemath(m) :
     mathre = re.compile("\\$.*?\\$"
                    "|\\\\begin\\{equation}.*?\\\\end\\{equation}"
+                   "|\\\\begin\\{equation\*}.*?\\\\end\\{equation\*}"
+                   "|\\\\begin\\{eqnarray}.*?\\\\end\\{eqnarray}"
                    "|\\\\\\[.*?\\\\\\]")
     math = mathre.findall(m)
     text = mathre.split(m)
@@ -290,6 +290,10 @@ def processmath( M ) :
     mathdelim = re.compile("\\$"
                            "|\\\\begin\\{equation}"
                            "|\\\\end\\{equation}"
+                           "|\\\\begin\\{equation\*}"
+                           "|\\\\end\\{equation\*}"
+                           "|\\\\begin\\{eqnarray}"
+                           "|\\\\end\\{eqnarray}"
                            "|\\\\\\[|\\\\\\]")
     label = re.compile("\\\\label\\{.*?}")
     
@@ -315,8 +319,16 @@ def processmath( M ) :
 
         else :
             if md[0].find("\\begin") != -1 :
-                count["equation"] += 1
-                mb[1] = mb[1] + "\\ \\ \\ \\ \\ ("+str(count["equation"])+")"
+                if md[0].find("equation*") != -1:
+                    pass
+                else:
+                    """
+                    handle numbered eqnarray and equation here
+                    """
+                    if md[0].find("eqnarray") != -1:
+                        mb[1] = "\\begin{array}{rcl} " + mb[1] + "\\end{array}"
+                    count["equation"] += 1
+                    mb[1] = mb[1] + "\\ \\ \\ \\ \\ ("+str(count["equation"])+")"
             if HTML :
                 mb[1]=mb[1].replace("+","%2B")
                 mb[1]=mb[1].replace("&","%26")
