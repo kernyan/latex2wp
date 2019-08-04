@@ -155,6 +155,8 @@ def extractbody(m) :
 
     m=m.replace("\\begin{eqnarray*}","\\[ \\begin{array}{rcl} ")
     m=m.replace("\\end{eqnarray*}","\\end{array} \\]")
+    m=m.replace("\\begin{equation*}","\\[ \\begin{equation*} ")
+    m=m.replace("\\end{equation*}", "\\end{equation*} \\]")
 
     return m
 
