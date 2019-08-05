@@ -1,8 +1,8 @@
 # latex2wp
-tex to wordpress html conversion python tool
+latex to wordpress html conversion python tool
 
 # Usage
-- Write tex code between "\begin{document}", "\end{document}" of post-template.tex
+- Write latex code between "\begin{document}", "\end{document}" of post-template.tex
 - place target tex file, macrosblog.tex, latex2wp.py, latex2wpstyle.py in same directory
 - run python latex2wp.py *target_tex_file.tex*
 
